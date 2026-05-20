@@ -6,17 +6,18 @@
     <title>Dashboard de Avaliação de Vídeos</title>
     <style>
         :root {
-            --bg-main: #12141c;
-            --bg-card: #1e2230;
-            --bg-input: #292f45;
-            --text-main: #f3f4f6;
-            --text-muted: #9ca3af;
-            --primary: #3b82f6;
-            --primary-hover: #2563eb;
-            --success: #10b981;
+            --bg-main: #000000;
+            --bg-card: #161823;
+            --bg-input: #25262e;
+            --text-main: #ffffff;
+            --text-muted: #86868b;
+            --primary: #FE2C55;
+            --primary-hover: #d92450;
+            --accent: #25F4EE;
+            --success: #25F4EE;
             --bronze: #cd7f32;
             --gold: #f59e0b;
-            --border: #374151;
+            --border: #2a2d3a;
         }
 
         * {
@@ -218,27 +219,51 @@
             color: var(--text-muted);
         }
 
-        .rating-stars {
-            display: flex;
-            gap: 8px;
+        .feedback-buttons {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
         }
 
-        .star-btn {
-            background: none;
-            border: 1px solid var(--border);
-            color: var(--text-muted);
-            width: 40px;
-            height: 40px;
-            border-radius: 8px;
+        .feedback-btn {
+            background-color: var(--bg-input);
+            border: 2px solid var(--border);
+            color: var(--text-main);
+            padding: 14px 8px;
+            border-radius: 12px;
             cursor: pointer;
-            font-size: 1.2rem;
-            transition: all 0.2s;
+            font-weight: 600;
+            font-size: 0.9rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 6px;
+            transition: transform 0.15s, box-shadow 0.2s, border-color 0.2s, background 0.2s;
         }
 
-        .star-btn.selected, .star-btn:hover {
-            border-color: var(--gold);
-            color: var(--gold);
-            background-color: rgba(245, 158, 11, 0.1);
+        .feedback-btn:hover {
+            border-color: var(--text-muted);
+        }
+
+        .feedback-btn .feedback-icon {
+            font-size: 1.8rem;
+            line-height: 1;
+        }
+
+        .feedback-btn.feedback-like.selected {
+            background: linear-gradient(135deg, #FE2C55, #ff5475);
+            border-color: #FE2C55;
+            color: #fff;
+            box-shadow: 0 0 22px rgba(254, 44, 85, 0.45);
+            transform: translateY(-2px);
+        }
+
+        .feedback-btn.feedback-dislike.selected {
+            background-color: #25262e;
+            border-color: var(--accent);
+            color: var(--accent);
+            box-shadow: 0 0 14px rgba(37, 244, 238, 0.25);
+            transform: translateY(-2px);
         }
 
         .tags-container {
@@ -424,11 +449,220 @@
             font-size: 0.85rem;
             font-weight: bold;
         }
+
+        .hamburger-btn {
+            display: none;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            color: var(--text-main);
+            width: 44px;
+            height: 44px;
+            border-radius: 8px;
+            font-size: 1.4rem;
+            cursor: pointer;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .sidebar-backdrop {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background-color: rgba(0, 0, 0, 0.6);
+            z-index: 998;
+        }
+
+        .sidebar-backdrop.visible {
+            display: block;
+        }
+
+        /* TABLET — até 1024px */
+        @media (max-width: 1024px) {
+            .workspace-container {
+                grid-template-columns: 1fr;
+            }
+            .main-content {
+                padding: 32px 24px;
+            }
+        }
+
+        /* MOBILE — até 768px */
+        @media (max-width: 768px) {
+            body {
+                flex-direction: column;
+            }
+
+            .hamburger-btn {
+                display: flex;
+            }
+
+            .sidebar {
+                position: fixed;
+                top: 0;
+                left: 0;
+                bottom: 0;
+                width: 78%;
+                max-width: 300px;
+                z-index: 999;
+                transform: translateX(-100%);
+                transition: transform 0.25s ease;
+                padding: 20px;
+            }
+
+            .sidebar.open {
+                transform: translateX(0);
+            }
+
+            .main-content {
+                padding: 20px 16px 80px;
+                width: 100%;
+            }
+
+            header {
+                gap: 12px;
+                flex-wrap: wrap;
+                padding-bottom: 12px;
+                margin-bottom: 20px;
+            }
+
+            header h1 {
+                font-size: 1.4rem;
+            }
+
+            #view-subtitle {
+                font-size: 0.8rem !important;
+            }
+
+            .user-meta {
+                margin-left: auto;
+            }
+
+            .badge {
+                padding: 4px 10px;
+                font-size: 0.75rem;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+                gap: 12px;
+                margin-bottom: 20px;
+            }
+
+            .stat-card {
+                padding: 16px;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+            }
+
+            .stat-label {
+                margin-bottom: 0;
+            }
+
+            .stat-value {
+                font-size: 1.4rem;
+            }
+
+            .workspace-container {
+                padding: 16px;
+                border-radius: 12px;
+                gap: 20px;
+            }
+
+            .video-timer {
+                bottom: 8px;
+                right: 8px;
+                padding: 4px 8px;
+                font-size: 0.75rem;
+            }
+
+            .video-unmute-hint {
+                top: 8px;
+                left: 8px;
+                font-size: 0.7rem;
+                padding: 4px 8px;
+            }
+
+            .feedback-btn {
+                padding: 12px 6px;
+            }
+
+            .feedback-btn .feedback-icon {
+                font-size: 1.5rem;
+            }
+
+            .tag-btn {
+                padding: 8px 12px;
+                font-size: 0.85rem;
+            }
+
+            .upgrade-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
+            .tier-card {
+                padding: 24px;
+            }
+
+            .tier-price {
+                font-size: 1.6rem;
+            }
+
+            .lock-overlay {
+                padding: 32px 16px;
+            }
+
+            .lock-overlay h2 {
+                font-size: 1.3rem;
+            }
+
+            .admin-footer {
+                left: 0;
+                right: 0;
+                bottom: 0;
+                border-radius: 0;
+                border-left: none;
+                padding: 10px 16px;
+                text-align: center;
+            }
+
+            .reset-btn {
+                font-size: 0.75rem;
+            }
+
+            .toast {
+                left: 16px;
+                right: 16px;
+                transform: none;
+                bottom: 64px;
+            }
+
+            .toast.visible {
+                transform: translateY(-4px);
+            }
+        }
+
+        /* MOBILE PEQUENO — até 380px */
+        @media (max-width: 380px) {
+            .feedback-btn {
+                font-size: 0.8rem;
+                padding: 10px 4px;
+            }
+            .feedback-btn .feedback-icon {
+                font-size: 1.3rem;
+            }
+            .tier-name {
+                font-size: 1.25rem;
+            }
+        }
     </style>
 </head>
 <body>
 
-    <div class="sidebar">
+    <div class="sidebar-backdrop" id="sidebar-backdrop" onclick="closeSidebar()"></div>
+
+    <div class="sidebar" id="sidebar">
         <div class="brand">
             <span>🎬</span> VideoRewards
         </div>
@@ -439,7 +673,8 @@
 
     <div class="main-content">
         <header>
-            <div>
+            <button class="hamburger-btn" onclick="toggleSidebar()" aria-label="Abrir menu">☰</button>
+            <div style="flex: 1; min-width: 0;">
                 <h1 id="view-title">Painel Geral</h1>
                 <p id="view-subtitle" style="color: var(--text-muted); font-size: 0.9rem; margin-top: 4px;">Acompanhe suas métricas em tempo real</p>
             </div>
@@ -469,7 +704,7 @@
                 <p style="color: var(--text-muted); line-height: 1.6; margin-bottom: 16px;">
                     Estado da sessão persistido no <strong>localStorage</strong> do navegador. Vídeos servidos da pasta <code>videos/</code> (arquivos nomeados <code>video1.mp4</code>, <code>video2.mp4</code>, …).
                 </p>
-                <div id="dashboard-video-status" style="background: rgba(59, 130, 246, 0.1); border-left: 4px solid var(--primary); padding: 16px; border-radius: 4px;">
+                <div id="dashboard-video-status" style="background: rgba(254, 44, 85, 0.1); border-left: 4px solid var(--primary); padding: 16px; border-radius: 4px;">
                     Verificando vídeos disponíveis…
                 </div>
             </div>
@@ -490,13 +725,16 @@
                 <div class="evaluation-form">
                     <div>
                         <div class="form-group">
-                            <label>1. Nota de Retenção (1 a 5 estrelas)</label>
-                            <div class="rating-stars">
-                                <button class="star-btn" onclick="setRating(1)">1</button>
-                                <button class="star-btn" onclick="setRating(2)">2</button>
-                                <button class="star-btn" onclick="setRating(3)">3</button>
-                                <button class="star-btn" onclick="setRating(4)">4</button>
-                                <button class="star-btn" onclick="setRating(5)">5</button>
+                            <label>1. Você curtiu este vídeo?</label>
+                            <div class="feedback-buttons">
+                                <button class="feedback-btn feedback-like" data-feedback="like" onclick="setFeedback('like')">
+                                    <span class="feedback-icon">❤️</span>
+                                    <span>Curtir</span>
+                                </button>
+                                <button class="feedback-btn feedback-dislike" data-feedback="dislike" onclick="setFeedback('dislike')">
+                                    <span class="feedback-icon">👎</span>
+                                    <span>Não curtir</span>
+                                </button>
                             </div>
                         </div>
 
@@ -602,7 +840,7 @@
         let appState = {};
         let videoList = [];
         let currentVideoIndex = -1;
-        let currentRating = 0;
+        let currentFeedback = null;
         let videoEnded = false;
 
         function todayKey() {
@@ -734,6 +972,16 @@
             }
         }
 
+        function toggleSidebar() {
+            document.getElementById('sidebar').classList.toggle('open');
+            document.getElementById('sidebar-backdrop').classList.toggle('visible');
+        }
+
+        function closeSidebar() {
+            document.getElementById('sidebar').classList.remove('open');
+            document.getElementById('sidebar-backdrop').classList.remove('visible');
+        }
+
         function switchView(viewName, navBtn) {
             document.querySelectorAll('.nav-button').forEach(b => b.classList.remove('active'));
             if (navBtn) {
@@ -742,6 +990,8 @@
                 const fallback = document.querySelector(`.nav-button[data-view="${viewName}"]`);
                 if (fallback) fallback.classList.add('active');
             }
+
+            closeSidebar();
 
             document.querySelectorAll('.view-section').forEach(s => s.classList.remove('active'));
             const target = document.getElementById(`view-${viewName}`) || document.getElementById('view-dashboard');
@@ -770,10 +1020,10 @@
         }
 
         function startVideoSimulation() {
-            currentRating = 0;
+            currentFeedback = null;
             videoEnded = false;
 
-            document.querySelectorAll('.star-btn').forEach(b => b.classList.remove('selected'));
+            document.querySelectorAll('.feedback-btn').forEach(b => b.classList.remove('selected'));
             document.querySelectorAll('.tag-btn').forEach(b => b.classList.remove('selected'));
 
             const submitBtn = document.getElementById('btn-submit-review');
@@ -847,10 +1097,10 @@
             video.load();
         }
 
-        function setRating(rating) {
-            currentRating = rating;
-            document.querySelectorAll('.star-btn').forEach((b, idx) => {
-                b.classList.toggle('selected', idx < rating);
+        function setFeedback(type) {
+            currentFeedback = type;
+            document.querySelectorAll('.feedback-btn').forEach(b => {
+                b.classList.toggle('selected', b.dataset.feedback === type);
             });
             evaluateFormValidity();
         }
@@ -864,7 +1114,7 @@
             const submitBtn = document.getElementById('btn-submit-review');
             const hasTags = document.querySelectorAll('.tag-btn.selected').length > 0;
 
-            if (videoEnded && currentRating > 0 && hasTags) {
+            if (videoEnded && currentFeedback && hasTags) {
                 submitBtn.disabled = false;
                 submitBtn.innerText = 'Enviar Avaliação e Computar Ganhos';
             } else {
